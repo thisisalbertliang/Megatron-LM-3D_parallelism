@@ -1,0 +1,28 @@
+apiVersion: kubeflow.org/v1alpha2
+kind: MPIJob
+metadata:
+  name: dse-experiments
+spec:
+  slotsPerWorker: 2
+  cleanPodPolicy: Running
+  mpiReplicaSpecs:
+    Launcher:
+      replicas: 1
+      template:
+        spec:
+          containers:
+            - image: ajliang/dse-experiments
+              name: dse-experiments
+              command:
+                - bash
+                - scripts/fixed_global_bsz_run_scripts/fixed_global_bsz.sh
+    Worker:
+      replicas: 2
+      template:
+        spec:
+          containers:
+            - image: ajliang/dse-experiments
+              name: dse-experiments
+              resources:
+                limits:
+                  nvidia.com/gpu: 2
