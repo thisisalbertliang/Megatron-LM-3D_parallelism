@@ -243,5 +243,5 @@ RUN python -c "import deepspeed; print(deepspeed.__version__)"
 #WORKDIR /megatron
 COPY DSE .
 #COPY /h/aqiao/megatron/preprocessed_data .
-CMD ["bash", "scripts/fixed_global_bsz_run_scripts/fixed_global_bsz.sh"]
+CMD ["bash", "scripts/ds_zero.sh"]
 
