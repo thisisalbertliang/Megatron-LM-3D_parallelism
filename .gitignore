@@ -1,0 +1,6 @@
+__pycache__
+
+rsync-exclude-list.txt
+docker_and_run.sh
+
+kubernetes
