@@ -18,7 +18,6 @@
 import argparse
 import os
 
-from mpi4py import MPI
 import subprocess
 
 import torch
@@ -82,6 +81,7 @@ def parse_args(extra_args_provider=None, defaults={},
     #    args.world_size = num_nodes*local_size
 
     if args.deepspeed_mpi:
+        from mpi4py import MPI
         print("[*] DeepSpeed MPI is enabled!")
         comm = MPI.COMM_WORLD
         rank = comm.Get_rank()
@@ -139,7 +139,7 @@ def parse_args(extra_args_provider=None, defaults={},
     # Check required arguments.
     required_args = ['num_layers', 'hidden_size', 'num_attention_heads',
                      'max_position_embeddings']
-    for req_arg in required_args: 
+    for req_arg in required_args:
         _check_arg_is_not_none(args, req_arg)
 
     # Checks.
