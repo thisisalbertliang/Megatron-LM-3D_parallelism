@@ -2,5 +2,6 @@ __pycache__
 
 rsync-exclude-list.txt
 docker_and_run.sh
+./dse-experiments-deployment.yaml
 
 kubernetes

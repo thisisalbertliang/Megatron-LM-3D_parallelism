@@ -15,9 +15,9 @@ BATCHSIZE=32
 # Gradient accumulation steps
 GAS=1
 
-NHEAD=32
-NLAYERS=72
-NHIDDEN=2560
+NHEAD=16
+NLAYERS=24
+NHIDDEN=1024
 
 #ZeRO Configs
 stage=3
@@ -38,7 +38,8 @@ MERGE_PATH=gpt2-merges.txt
 
 script_path=$(realpath $0)
 script_dir=$(dirname $script_path)
-config_json="$script_dir/ds_config_fixed_global_bsz.json"
+config_json="$script_dir/zero3.json"
+hostfile="$script_dir/myhostfile"
 
 LOGDIR="tensorboard_data/${NLAYERS}l_${NHIDDEN}h_${NNODES}n_${GPUS_PER_NODE}g_${pp_size}pp_${mp_size}mp_${BATCHSIZE}b_ds4"
 
@@ -134,8 +135,8 @@ fi
 full_options="${gpt_options} ${deepspeed_options} ${chkp_opt}"
 
 run_cmd="deepspeed --num_nodes ${DLWS_NUM_WORKER} --num_gpus ${DLWS_NUM_GPU_PER_WORKER} pretrain_gpt2.py $@ ${full_options}"
+#run_cmd="deepspeed --hostfile ${hostfile} pretrain_gpt2.py $@ ${full_options}"
 #run_cmd="mpirun --allow-run-as-root -N ${GPUS_PER_NODE} python pretrain_gpt2.py $@ ${full_options} --deepspeed_mpi"
-#run_cmd="python pretrain_gpt2.py $@ ${full_options}"
 echo ${run_cmd}
 eval ${run_cmd}
 
